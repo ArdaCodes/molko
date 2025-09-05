@@ -1,0 +1,2818 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOLKO - Kişisel Blog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #4caf50;
+            --accent-color: #ff9800;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+            --footer-bg: #1b5e20;
+            --footer-text: #f8f9fa;
+            --border-color: #ddd;
+            --tag-bg: #e8f5e9;
+            --tag-text: #2e7d32;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --tarih-color: #3f51b5;
+            --cografya-color: #009688;
+            --teknoloji-color: #ff5722;
+            --edebiyat-color: #9c27b0;
+            --matematik-color: #2196f3;
+            --biyoloji-color: #4caf50;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --error-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #4caf50;
+            --secondary-color: #81c784;
+            --accent-color: #ffa726;
+            --text-color: #e9ecef;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --header-bg: #1e1e1e;
+            --footer-bg: #0d4711;
+            --footer-text: #e9ecef;
+            --border-color: #444;
+            --tag-bg: #1b5e20;
+            --tag-text: #e9ecef;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --tarih-color: #5c6bc0;
+            --cografya-color: #4db6ac;
+            --teknoloji-color: #ff8a65;
+            --edebiyat-color: #ba68c8;
+            --matematik-color: #42a5f5;
+            --biyoloji-color: #81c784;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --error-color: #e74c3c;
+            --info-color: #3498db;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            gap: 2.5rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 1px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        nav {
+            flex-grow: 1;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle, .admin-toggle, .favorites-toggle, .subscribe-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.6rem;
+            color: var(--text-color);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .theme-toggle:hover, .admin-toggle:hover, .favorites-toggle:hover, .subscribe-toggle:hover {
+            color: var(--accent-color);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            margin-bottom: 3rem;
+            border-radius: 0 0 12px 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,224C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-search {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero-search input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-search button {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 1.2rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .filter-group h3 {
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .tag {
+            background-color: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tag:hover, .tag.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .search-box {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            width: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .filter-advanced {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .filter-advanced summary {
+            cursor: pointer;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .date-filter {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .date-filter input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .sort-select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin-top: 0.5rem;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .blog-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .blog-card:hover .card-img::after {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .tarih { background-color: var(--tarih-color); }
+        .cografya { background-color: var(--cografya-color); }
+        .teknoloji { background-color: var(--teknoloji-color); }
+        .edebiyat { background-color: var(--edebiyat-color); }
+        .matematik { background-color: var(--matematik-color); }
+        .biyoloji { background-color: var(--biyoloji-color); }
+
+        .card-content {
+            padding: 1.75rem;
+        }
+
+        .card-content h3 {
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .date, .reading-time {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .excerpt {
+            margin-bottom: 1.25rem;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .favorite-btn.active {
+            color: #ff4444;
+        }
+
+        .card-views {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .pagination button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .pagination button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 2.5rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: var(--footer-text);
+            font-size: 1.6rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .admin-panel {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.85rem 2rem;
+            border: none;
+            background-color: var(--bg-color);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .admin-panel h2 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .admin-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .form-control {
+            padding: 0.85rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .editor {
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            background-color: var(--bg-color);
+            border-radius: 6px;
+            min-height: 200px;
+            outline: none;
+            resize: vertical;
+        }
+
+        .editor img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .btn {
+            padding: 0.85rem 2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .post-detail {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .post-title {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 1.5rem;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .post-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .music-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .music-section h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .music-player {
+            margin: 0.75rem 0;
+            padding: 1rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .music-player iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .login-form {
+            max-width: 450px;
+            margin: 3rem auto;
+            padding: 2.5rem;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .editor-toolbar {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .editor-button {
+            padding: 0.6rem;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .editor-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .image-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .upload-preview {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 12px;
+            margin-top: 0.75rem;
+        }
+
+        .tag-suggestions {
+            position: absolute;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .tag-suggestion {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tag-suggestion:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .preview-container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .archive-section, .manage-posts {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .archive-section h3, .manage-posts h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .archive-list, .post-list {
+            list-style: none;
+        }
+
+        .archive-list li, .post-list li {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .archive-list a, .post-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            flex-grow: 1;
+        }
+
+        .archive-list a:hover, .post-list a:hover {
+            color: var(--primary-color);
+        }
+
+        .post-list .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Yeni eklenen stiller */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.success {
+            background-color: var(--success-color);
+        }
+
+        .toast.error {
+            background-color: var(--error-color);
+        }
+
+        .toast.warning {
+            background-color: var(--warning-color);
+        }
+
+        .toast.info {
+            background-color: var(--info-color);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .subscribe-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .subscribe-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .subscribe-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .subscribe-modal.active .subscribe-content {
+            transform: translateY(0);
+        }
+
+        .subscribe-content h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .comments-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .comments-section h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .comment-form {
+            margin-bottom: 2rem;
+        }
+
+        .comment {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comment:last-child {
+            border-bottom: none;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .comment-author {
+            font-weight: 600;
+        }
+
+        .comment-date {
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .share-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .share-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background-color: var(--accent-color);
+            z-index: 9999;
+            transition: width 0.2s ease;
+        }
+
+        .related-posts {
+            margin-top: 3rem;
+        }
+
+        .related-posts h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .stats-widget {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .stats-widget h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background-color: var(--bg-color);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 99;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            background-color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1rem 0;
+            }
+
+            nav ul {
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .post-title {
+                font-size: 2rem;
+            }
+
+            .admin-tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .share-buttons {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="reading-progress" id="reading-progress"></div>
+    <div class="scroll-top" id="scroll-top"><i class="fas fa-arrow-up"></i></div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-feather-alt"></i>
+                    MOLKO
+                </div>
+                <nav>
+                    <ul id="nav-menu">
+                        <li><a href="#" class="nav-link active" data-category="all">Tümü</a></li>
+                        <li><a href="#" class="nav-link" data-category="tarih">Tarih</a></li>
+                        <li><a href="#" class="nav-link" data-category="cografya">Coğrafya</a></li>
+                        <li><a href="#" class="nav-link" data-category="teknoloji">Teknoloji</a></li>
+                        <li><a href="#" class="nav-link" data-category="edebiyat">Edebiyat</a></li>
+                        <li><a href="#" class="nav-link" data-category="matematik">Matematik</a></li>
+                        <li><a href="#" class="nav-link" data-category="biyoloji">Biyoloji</a></li>
+                        <li><a href="#" class="nav-link" data-section="favorites">Favoriler</a></li>
+                        <li><a href="#" class="nav-link" data-section="archive">Arşiv</a></li>
+                    </ul>
+                </nav>
+                <div class="header-buttons">
+                    <button class="subscribe-toggle" title="Bülten Aboneliği" aria-label="Bülten Aboneliği">
+                        <i class="fas fa-envelope"></i>
+                        <span class="notification-badge" id="subscribe-badge">3</span>
+                    </button>
+                    <button class="favorites-toggle" title="Favoriler" aria-label="Favoriler">
+                        <i class="fas fa-heart"></i>
+                        <span class="notification-badge" id="favorites-badge">0</span>
+                    </button>
+                    <button class="admin-toggle" title="Admin Paneli" aria-label="Admin Paneli"><i class="fas fa-lock"></i></button>
+                    <button class="theme-toggle" aria-label="Tema Değiştir"><i class="fas fa-moon"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>MOLKO - Kişisel Blog</h1>
+            <p>Bilgi paylaştıkça çoğalır. İlgi alanlarıma dair yazılarımı burada topluyorum.</p>
+            <div class="hero-search">
+                <input type="text" placeholder="Blogda arama yapın..." id="hero-search">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <div class="stats">
+                <div class="stat-item"><i class="fas fa-file-alt"></i> <span id="total-posts">0</span> Yazı</div>
+                <div class="stat-item"><i class="fas fa-tags"></i> <span id="total-tags">0</span> Etiket</div>
+                <div class="stat-item"><i class="fas fa-eye"></i> <span id="total-views">0</span> Görüntüleme</div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <section id="admin-section" class="admin-panel hidden">
+            <h2>Yazı ve Kategori Yönetimi</h2>
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="post">Yazı Ekle</button>
+                <button class="tab-btn" data-tab="category">Kategori Ekle</button>
+                <button class="tab-btn" data-tab="manage">Yazıları Yönet</button>
+                <button class="tab-btn" data-tab="stats">İstatistikler</button>
+            </div>
+            <form id="admin-form" class="admin-form">
+                <input type="hidden" id="post-id">
+                <div class="form-group">
+                    <label for="post-title">Başlık</label>
+                    <input type="text" id="post-title" class="form-control" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="post-category">Kategori</label>
+                    <select id="post-category" class="form-control" required aria-required="true"></select>
+                </div>
+                <div class="form-group">
+                    <label for="post-content">İçerik</label>
+                    <div class="editor-toolbar">
+                        <button type="button" class="editor-button" data-command="bold" title="Kalın (Ctrl+B)" aria-label="Kalın"><i class="fas fa-bold"></i></button>
+                        <button type="button" class="editor-button" data-command="italic" title="İtalik (Ctrl+I)" aria-label="İtalik"><i class="fas fa-italic"></i></button>
+                        <button type="button" class="editor-button" data-command="insertUnorderedList" title="Liste" aria-label="Liste"><i class="fas fa-list-ul"></i></button>
+                        <button type="button" class="editor-button" data-command="insertImage" title="Görsel Ekle" aria-label="Görsel Ekle"><i class="fas fa-image"></i></button>
+                        <button type="button" class="editor-button preview-btn" title="Önizleme" aria-label="Önizleme"><i class="fas fa-eye"></i></button>
+                    </div>
+                    <div id="post-content" class="editor" contenteditable="true" aria-multiline="true"></div>
+                    <div class="editor-stats">
+                        <span id="word-count">0</span> kelime, <span id="char-count">0</span> karakter
+                    </div>
+                    <div id="preview-container" class="preview-container hidden"></div>
+                </div>
+                <div class="form-group">
+                    <label for="post-tags">Etiketler (virgülle ayırın)</label>
+                    <input type="text" id="post-tags" class="form-control" required aria-required="true">
+                    <div id="tag-suggestions" class="tag-suggestions hidden"></div>
+                </div>
+                <div class="form-group">
+                    <label for="post-image">Kapak Görseli (isteğe bağlı)</label>
+                    <div class="image-upload">
+                        <input type="file" id="post-image" accept="image/*">
+                        <img id="image-preview" class="upload-preview hidden" src="" alt="Önizleme">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="post-music">Müzik Önerileri (Spotify/YouTube URL'leri, virgülle ayırın)</label>
+                    <input type="text" id="post-music" class="form-control" placeholder="https://open.spotify.com/..., https://youtube.com/...">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="submit-post">Yayınla</button>
+                    <button type="button" class="btn" id="save-draft">Taslak Olarak Kaydet</button>
+                    <button type="button" class="btn btn-primary hidden" id="clone-post">Klonla</button>
+                </div>
+            </form>
+            <form id="category-form" class="admin-form hidden">
+                <div class="form-group">
+                    <label for="category-name">Kategori Adı</label>
+                    <input type="text" id="category-name" class="form-control" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="category-color">Renk (Hex Kodu)</label>
+                    <input type="text" id="category-color" class="form-control" placeholder="#2196f3" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="category-icon">Simge (Font Awesome, örn. fa-calculator)</label>
+                    <input type="text" id="category-icon" class="form-control" placeholder="fa-file-alt" required aria-required="true">
+                </div>
+                <button type="submit" class="btn btn-primary">Kategoriyi Ekle</button>
+            </form>
+            <div id="manage-posts" class="manage-posts hidden">
+                <h3>Yazıları Yönet</h3>
+                <div class="search-box-container">
+                    <input type="text" class="search-box" id="manage-search" placeholder="Yazı ara...">
+                </div>
+                <ul id="post-list" class="post-list"></ul>
+            </div>
+            <div id="stats-tab" class="stats-widget hidden">
+                <h3>İstatistikler</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-posts">0</div>
+                        <div class="stat-label">Toplam Yazı</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-views">0</div>
+                        <div class="stat-label">Toplam Görüntüleme</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-words">0</div>
+                        <div class="stat-label">Ortalama Kelime</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-categories">0</div>
+                        <div class="stat-label">Kategori</div>
+                    </div>
+                </div>
+                <div class="chart-container" style="margin-top: 2rem;">
+                    <h4>Kategori Dağılımı</h4>
+                    <div id="category-chart" style="height: 200px;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="login-section" class="login-form hidden">
+            <h2>Admin Girişi</h2>
+            <div class="form-group">
+                <label for="admin-password">Şifre</label>
+                <input type="password" id="admin-password" class="form-control" required aria-required="true">
+            </div>
+            <button id="login-button" class="btn btn-primary">Giriş Yap</button>
+        </section>
+
+        <section id="post-detail" class="post-detail hidden">
+            <a href="#" class="back-button" id="back-button"><i class="fas fa-arrow-left"></i> Geri Dön</a>
+            <div class="post-header">
+                <h1 id="detail-title" class="post-title"></h1>
+                <div class="post-meta">
+                    <span id="detail-date"></span>
+                    <span id="detail-category"></span>
+                    <span id="detail-reading-time"></span>
+                    <span><i class="fas fa-eye"></i> <span id="detail-views">0</span> görüntüleme</span>
+                </div>
+                <div class="card-tags" id="detail-tags"></div>
+                <button class="favorite-btn" id="detail-favorite" aria-label="Favorilere Ekle"><i class="fas fa-heart"></i></button>
+            </div>
+            <div id="detail-content" class="post-content"></div>
+            <div id="detail-music" class="music-section hidden"></div>
+
+            <div class="share-buttons">
+                <a href="#" class="share-button" id="share-twitter"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#" class="share-button" id="share-facebook"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="share-button" id="share-linkedin"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="#" class="share-button" id="share-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
+
+            <div class="comments-section">
+                <h3>Yorumlar</h3>
+                <div class="comment-form">
+                    <div class="form-group">
+                        <label for="comment-author">İsim</label>
+                        <input type="text" id="comment-author" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="comment-content">Yorumunuz</label>
+                        <textarea id="comment-content" class="form-control" rows="4"></textarea>
+                    </div>
+                    <button id="submit-comment" class="btn btn-primary">Yorum Yap</button>
+                </div>
+                <div id="comments-container"></div>
+            </div>
+
+            <div class="related-posts">
+                <h3>İlgili Yazılar</h3>
+                <div class="blog-grid" id="related-container"></div>
+            </div>
+        </section>
+
+        <section id="favorites-section" class="archive-section hidden">
+            <h2>Favorilerim</h2>
+            <div class="blog-grid" id="favorites-container"></div>
+        </section>
+
+        <section id="archive-section" class="archive-section hidden">
+            <h2>Arşiv</h2>
+            <div class="filters">
+                <div class="filter-group">
+                    <h3>Yıla Göre Filtrele</h3>
+                    <select id="year-filter" class="form-control">
+                        <option value="all">Tüm Yıllar</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <h3>Aya Göre Filtrele</h3>
+                    <select id="month-filter" class="form-control">
+                        <option value="all">Tüm Aylar</option>
+                        <option value="0">Ocak</option>
+                        <option value="1">Şubat</option>
+                        <option value="2">Mart</option>
+                        <option value="3">Nisan</option>
+                        <option value="4">Mayıs</option>
+                        <option value="5">Haziran</option>
+                        <option value="6">Temmuz</option>
+                        <option value="7">Ağustos</option>
+                        <option value="8">Eylül</option>
+                        <option value="9">Ekim</option>
+                        <option value="10">Kasım</option>
+                        <option value="11">Aralık</option>
+                    </select>
+                </div>
+            </div>
+            <div id="archive-list"></div>
+        </section>
+
+        <section id="blog-section" class="filters">
+            <div class="filter-group">
+                <h3>Kategoriler</h3>
+                <div id="category-tags" class="tags">
+                    <div class="tag active" data-category="all">Tümü</div>
+                </div>
+            </div>
+            <div class="filter-group">
+                <h3>Etiketler</h3>
+                <div class="tags" id="tag-cloud"></div>
+            </div>
+            <div class="filter-group">
+                <h3>Arama</h3>
+                <input type="text" class="search-box" id="search-input" placeholder="Konu başlığı, içerik veya etiket ara..." aria-label="Arama">
+                <details class="filter-advanced">
+                    <summary>Gelişmiş Filtreleme</summary>
+                    <div class="date-filter">
+                        <input type="date" id="date-from" placeholder="Başlangıç">
+                        <input type="date" id="date-to" placeholder="Bitiş">
+                    </div>
+                    <select id="sort-by" class="sort-select">
+                        <option value="newest">En Yeni</option>
+                        <option value="oldest">En Eski</option>
+                        <option value="most-viewed">En Çok Görüntülenen</option>
+                        <option value="most-read">En Çok Okunan</option>
+                    </select>
+                </details>
+            </div>
+        </section>
+
+        <section class="blog-grid" id="blog-container"></section>
+        <div class="pagination" id="pagination"></div>
+    </main>
+
+    <div class="subscribe-modal" id="subscribe-modal">
+        <div class="subscribe-content">
+            <button class="close-modal" id="close-modal"><i class="fas fa-times"></i></button>
+            <h3>Bültene Abone Ol</h3>
+            <p>Yeni yazılarımı e-posta ile almak için abone olun.</p>
+            <div class="form-group">
+                <input type="email" id="subscribe-email" class="form-control" placeholder="E-posta adresiniz" required>
+            </div>
+            <button id="subscribe-button" class="btn btn-primary">Abone Ol</button>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 MOLKO Blog. Tüm hakları saklıdır.</p>
+                <div class="social-links">
+                    <a href="https://github.com" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://twitter.com" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // State Management
+        let blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [
+            {
+                id: 1,
+                title: "Osmanlı İmparatorluğu'nun Yükselişi",
+                content: `<p>Osmanlı İmparatorluğu, 13. yüzyılın sonlarında Kuzeybatı Anadolu'da kurulmuş ve 600 yıldan fazla varlığını sürdürmüş bir devlettir.</p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Ottoman_Empire_in_1683.png/800px-Ottoman_Empire_in_1683.png" alt="Osmanlı Haritası">
+                <p>Osmanlı'nın yükseliş dönemi özellikle İstanbul'un fethi (1453) ile başlamıştır.</p>`,
+                excerpt: "Osmanlı İmparatorluğu'nun nasıl küçük bir beylikten büyük bir imparatorluğa dönüştüğünü keşfedin.",
+                category: "tarih",
+                tags: ["osmanlı", "imparatorluk", "yükseliş"],
+                date: "2023-05-15",
+                image: "",
+                music: ["https://open.spotify.com/embed/playlist/37i9dQZF1DWYV7OOaGhoH0"],
+                views: 125,
+                readTime: 5
+            },
+            {
+                id: 2,
+                title: "Türkiye'nin Coğrafi Bölgeleri",
+                content: `<p>Türkiye, fiziki coğrafya özellikleri bakımından yedi coğrafi bölgeye ayrılmıştır.</p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Turkey_geographical_regions.png/800px-Turkey_geographical_regions.png" alt="Türkiye Bölgeleri">
+                <p>Karadeniz Bölgesi, yeşil doğası ve bol yağışlı iklimiyle öne çıkar.</p>`,
+                excerpt: "Türkiye'nin yedi coğrafi bölgesinin özellikleri, iklimi ve bitki örtüsü hakkında bilgiler.",
+                category: "cografya",
+                tags: ["türkiye", "bölgeler", "coğrafi"],
+                date: "2023-05-22",
+                image: "",
+                music: ["https://www.youtube.com/embed/dQw4w9WgXcQ"],
+                views: 98,
+                readTime: 4
+            },
+            {
+                id: 3,
+                title: "Yapay Zeka ve Geleceği",
+                content: `<p>Yapay zeka (AI), son yıllarda teknoloji dünyasının en hızlı gelişen alanlarından biridir.</p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/800px-ChatGPT_logo.svg.png" alt="Yapay Zeka">
+                <p>Yapay zekanın sağlık sektöründen ulaşıma kadar devrim yaratması bekleniyor.</p>`,
+                excerpt: "Yapay zeka teknolojilerinin gelişimi ve gelecekte hayatımızı nasıl etkileyeceği.",
+                category: "teknoloji",
+                tags: ["yapay zeka", "teknoloji", "gelecek"],
+                date: "2023-05-30",
+                image: "",
+                music: ["https://open.spotify.com/embed/playlist/37i9dQZF1DX0jgyAiPl8Af"],
+                views: 156,
+                readTime: 7
+            }
+        ];
+
+        let categories = JSON.parse(localStorage.getItem('categories')) || [
+            { name: 'tarih', color: '#3f51b5', darkColor: '#5c6bc0', icon: 'fa-landmark' },
+            { name: 'cografya', color: '#009688', darkColor: '#4db6ac', icon: 'fa-globe-europe' },
+            { name: 'teknoloji', color: '#ff5722', darkColor: '#ff8a65', icon: 'fa-microchip' },
+            { name: 'edebiyat', color: '#9c27b0', darkColor: '#ba68c8', icon: 'fa-book' },
+            { name: 'matematik', color: '#2196f3', darkColor: '#42a5f5', icon: 'fa-calculator' },
+            { name: 'biyoloji', color: '#4caf50', darkColor: '#81c784', icon: 'fa-leaf' }
+        ];
+
+        let allTags = [...new Set(blogPosts.flatMap(post => post.tags))];
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let activeCategory = 'all';
+        let activeTags = [];
+        let currentPage = 1;
+        const postsPerPage = 6;
+        let isAdmin = false;
+        let editingPostId = null;
+        let draftInterval = null;
+        let comments = JSON.parse(localStorage.getItem('comments')) || {};
+        let subscribers = JSON.parse(localStorage.getItem('subscribers')) || [];
+        let postViews = JSON.parse(localStorage.getItem('postViews')) || {};
+
+        // DOM Elements
+        const themeToggle = document.querySelector('.theme-toggle');
+        const adminToggle = document.querySelector('.admin-toggle');
+        const favoritesToggle = document.querySelector('.favorites-toggle');
+        const subscribeToggle = document.querySelector('.subscribe-toggle');
+        const adminSection = document.getElementById('admin-section');
+        const loginSection = document.getElementById('login-section');
+        const postDetail = document.getElementById('post-detail');
+        const blogSection = document.getElementById('blog-section');
+        const blogContainer = document.getElementById('blog-container');
+        const favoritesSection = document.getElementById('favorites-section');
+        const archiveSection = document.getElementById('archive-section');
+        const tagCloud = document.getElementById('tag-cloud');
+        const searchInput = document.getElementById('search-input');
+        const pagination = document.getElementById('pagination');
+        const editor = document.getElementById('post-content');
+        const imageInput = document.getElementById('post-image');
+        const imagePreview = document.getElementById('image-preview');
+        const tagInput = document.getElementById('post-tags');
+        const tagSuggestions = document.getElementById('tag-suggestions');
+        const categoryTags = document.getElementById('category-tags');
+        const navMenu = document.getElementById('nav-menu');
+        const adminForm = document.getElementById('admin-form');
+        const submitPostBtn = document.getElementById('submit-post');
+        const clonePostBtn = document.getElementById('clone-post');
+        const musicInput = document.getElementById('post-music');
+        const saveDraftBtn = document.getElementById('save-draft');
+        const wordCount = document.getElementById('word-count');
+        const charCount = document.getElementById('char-count');
+        const scrollTopBtn = document.getElementById('scroll-top');
+        const readingProgress = document.getElementById('reading-progress');
+        const subscribeModal = document.getElementById('subscribe-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const subscribeButton = document.getElementById('subscribe-button');
+        const subscribeEmail = document.getElementById('subscribe-email');
+        const toastContainer = document.getElementById('toast-container');
+        const heroSearch = document.getElementById('hero-search');
+        const totalPostsEl = document.getElementById('total-posts');
+        const totalTagsEl = document.getElementById('total-tags');
+        const totalViewsEl = document.getElementById('total-views');
+        const favoritesBadge = document.getElementById('favorites-badge');
+        const subscribeBadge = document.getElementById('subscribe-badge');
+        const shareTwitter = document.getElementById('share-twitter');
+        const shareFacebook = document.getElementById('share-facebook');
+        const shareLinkedin = document.getElementById('share-linkedin');
+        const shareWhatsapp = document.getElementById('share-whatsapp');
+        const submitComment = document.getElementById('submit-comment');
+        const commentAuthor = document.getElementById('comment-author');
+        const commentContent = document.getElementById('comment-content');
+        const commentsContainer = document.getElementById('comments-container');
+        const relatedContainer = document.getElementById('related-container');
+        const detailViews = document.getElementById('detail-views');
+        const yearFilter = document.getElementById('year-filter');
+        const monthFilter = document.getElementById('month-filter');
+        const dateFrom = document.getElementById('date-from');
+        const dateTo = document.getElementById('date-to');
+        const sortBy = document.getElementById('sort-by');
+        const manageSearch = document.getElementById('manage-search');
+        const statPosts = document.getElementById('stat-posts');
+        const statViews = document.getElementById('stat-views');
+        const statWords = document.getElementById('stat-words');
+        const statCategories = document.getElementById('stat-categories');
+
+        // Tema Değiştirme
+        function toggleTheme() {
+            const newTheme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            document.body.dataset.theme = newTheme;
+            themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', newTheme);
+            showToast('Tema değiştirildi: ' + (newTheme === 'dark' ? 'Koyu Mod' : 'Aydınlık Mod'), 'success');
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.dataset.theme = savedTheme;
+            themeToggle.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        }
+
+        // Toast Bildirimleri
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    toastContainer.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // İlerleme Çubuğu
+        function updateProgressBar() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollPercent = (scrollTop / (documentHeight - windowHeight)) * 100;
+            readingProgress.style.width = scrollPercent + '%';
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Yukarı Çık Butonu
+        function toggleScrollTop() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        }
+
+        window.addEventListener('scroll', toggleScrollTop);
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Abone Ol Modal
+        subscribeToggle.addEventListener('click', () => {
+            subscribeModal.classList.add('active');
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            subscribeModal.classList.remove('active');
+        });
+
+        subscribeButton.addEventListener('click', () => {
+            const email = subscribeEmail.value;
+            if (email && validateEmail(email)) {
+                if (!subscribers.includes(email)) {
+                    subscribers.push(email);
+                    localStorage.setItem('subscribers', JSON.stringify(subscribers));
+                    subscribeBadge.textContent = subscribers.length;
+                    showToast('Başarıyla abone oldunuz!', 'success');
+                    subscribeModal.classList.remove('active');
+                    subscribeEmail.value = '';
+                } else {
+                    showToast('Bu e-posta zaten abone.', 'warning');
+                }
+            } else {
+                showToast('Lütfen geçerli bir e-posta adresi girin.', 'error');
+            }
+        });
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // İstatistikleri Güncelle
+        function updateStats() {
+            totalPostsEl.textContent = blogPosts.length;
+            totalTagsEl.textContent = allTags.length;
+            
+            const totalViews = blogPosts.reduce((sum, post) => sum + (post.views || 0), 0);
+            totalViewsEl.textContent = totalViews;
+            
+            favoritesBadge.textContent = favorites.length;
+            subscribeBadge.textContent = subscribers.length;
+            
+            // Admin istatistikleri
+            statPosts.textContent = blogPosts.length;
+            statViews.textContent = totalViews;
+            
+            const avgWords = blogPosts.length > 0 ? 
+                Math.round(blogPosts.reduce((sum, post) => {
+                    const text = post.content.replace(/<[^>]*>/g, '');
+                    return sum + text.split(/\s+/).length;
+                }, 0) / blogPosts.length) : 0;
+            statWords.textContent = avgWords;
+            
+            statCategories.textContent = categories.length;
+        }
+
+        // Paylaşım Butonları
+        function updateShareButtons() {
+            const title = document.getElementById('detail-title').textContent;
+            const url = window.location.href;
+            
+            shareTwitter.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
+            shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            shareLinkedin.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+            shareWhatsapp.href = `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`;
+        }
+
+        // Yorum Sistemi
+        function loadComments(postId) {
+            commentsContainer.innerHTML = '';
+            const postComments = comments[postId] || [];
+            
+            if (postComments.length === 0) {
+                commentsContainer.innerHTML = '<p>Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>';
+                return;
+            }
+            
+            postComments.forEach(comment => {
+                const commentEl = document.createElement('div');
+                commentEl.className = 'comment';
+                commentEl.innerHTML = `
+                    <div class="comment-header">
+                        <div class="comment-avatar">${comment.author.charAt(0).toUpperCase()}</div>
+                        <div class="comment-author">${comment.author}</div>
+                        <div class="comment-date">${new Date(comment.date).toLocaleDateString('tr-TR')}</div>
+                    </div>
+                    <div class="comment-content">${comment.content}</div>
+                `;
+                commentsContainer.appendChild(commentEl);
+            });
+        }
+
+        submitComment.addEventListener('click', () => {
+            const author = commentAuthor.value;
+            const content = commentContent.value;
+            const postId = parseInt(document.getElementById('detail-title').dataset.id);
+            
+            if (!author || !content) {
+                showToast('Lütfen isim ve yorum alanlarını doldurun.', 'warning');
+                return;
+            }
+            
+            if (!comments[postId]) {
+                comments[postId] = [];
+            }
+            
+            comments[postId].push({
+                author,
+                content,
+                date: new Date().toISOString()
+            });
+            
+            localStorage.setItem('comments', JSON.stringify(comments));
+            loadComments(postId);
+            commentAuthor.value = '';
+            commentContent.value = '';
+            showToast('Yorumunuz başarıyla eklendi!', 'success');
+        });
+
+        // İlgili Yazılar
+        function loadRelatedPosts(post) {
+            relatedContainer.innerHTML = '';
+            const relatedPosts = blogPosts
+                .filter(p => p.id !== post.id && (p.category === post.category || p.tags.some(tag => post.tags.includes(tag))))
+                .slice(0, 3);
+            
+            if (relatedPosts.length === 0) {
+                relatedContainer.innerHTML = '<p>İlgili yazı bulunamadı.</p>';
+                return;
+            }
+            
+            renderPosts(relatedPosts, relatedContainer);
+        }
+
+        // Görüntüleme Sayacı
+        function incrementViewCount(postId) {
+            if (!postViews[postId]) {
+                postViews[postId] = 0;
+            }
+            postViews[postId]++;
+            
+            const post = blogPosts.find(p => p.id === postId);
+            if (post) {
+                post.views = (post.views || 0) + 1;
+                localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+                localStorage.setItem('postViews', JSON.stringify(postViews));
+                detailViews.textContent = post.views;
+            }
+        }
+
+        // Kelime Sayacı
+        function updateWordCount() {
+            const text = editor.innerText;
+            const words = text.split(/\s+/).filter(word => word.length > 0).length;
+            const characters = text.length;
+            
+            wordCount.textContent = words;
+            charCount.textContent = characters;
+        }
+
+        editor.addEventListener('input', updateWordCount);
+
+        // Tarih Filtreleme
+        function setupDateFilters() {
+            // Yıl filtreleme için seçenekleri doldur
+            const years = [...new Set(blogPosts.map(post => new Date(post.date).getFullYear()))].sort((a, b) => b - a);
+            yearFilter.innerHTML = '<option value="all">Tüm Yıllar</option>';
+            years.forEach(year => {
+                yearFilter.innerHTML += `<option value="${year}">${year}</option>`;
+            });
+            
+            // Filtre değişikliklerini dinle
+            yearFilter.addEventListener('change', applyFilters);
+            monthFilter.addEventListener('change', applyFilters);
+            dateFrom.addEventListener('change', applyFilters);
+            dateTo.addEventListener('change', applyFilters);
+            sortBy.addEventListener('change', applyFilters);
+        }
+
+        // Admin Panel
+        adminToggle.addEventListener('click', () => {
+            if (isAdmin) {
+                adminSection.classList.add('hidden');
+                loginSection.classList.add('hidden');
+                blogSection.classList.remove('hidden');
+                blogContainer.classList.remove('hidden');
+                isAdmin = false;
+                adminToggle.innerHTML = '<i class="fas fa-lock"></i>';
+                clearInterval(draftInterval);
+            } else {
+                loginSection.classList.remove('hidden');
+                adminSection.classList.add('hidden');
+                blogSection.classList.add('hidden');
+                blogContainer.classList.add('hidden');
+            }
+            postDetail.classList.add('hidden');
+            favoritesSection.classList.add('hidden');
+            archiveSection.classList.add('hidden');
+        });
+
+        // Admin Giriş
+        document.getElementById('login-button').addEventListener('click', () => {
+            const password = document.getElementById('admin-password').value;
+            if (password === 'admin') {
+                isAdmin = true;
+                loginSection.classList.add('hidden');
+                adminSection.classList.remove('hidden');
+                blogSection.classList.add('hidden');
+                blogContainer.classList.add('hidden');
+                adminToggle.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+                startAutoSave();
+                document.querySelector('.tab-btn[data-tab="post"]').click();
+                showToast('Admin paneline hoş geldiniz', 'success');
+            } else {
+                showToast('Şifre yanlış!', 'error');
+            }
+        });
+
+        // Sekme Değiştirme
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.admin-form, .manage-posts, .stats-widget').forEach(el => el.classList.add('hidden'));
+
+            const tabBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+            if (!tabBtn) {
+                console.error(`Sekme butonu bulunamadı: ${tab}`);
+                return;
+            }
+            tabBtn.classList.add('active');
+
+            if (tab === 'post') {
+                document.getElementById('admin-form').classList.remove('hidden');
+                resetPostForm();
+            } else if (tab === 'category') {
+                document.getElementById('category-form').classList.remove('hidden');
+            } else if (tab === 'manage') {
+                document.getElementById('manage-posts').classList.remove('hidden');
+                renderPostList();
+            } else if (tab === 'stats') {
+                document.getElementById('stats-tab').classList.remove('hidden');
+                updateAdminStats();
+            }
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                switchTab(btn.dataset.tab);
+            });
+        });
+
+        // Görsel Önizleme
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.classList.add('hidden');
+            }
+            saveDraft();
+        });
+
+        // Zengin Metin Editörü
+        document.querySelectorAll('.editor-button:not(.preview-btn)').forEach(button => {
+            button.addEventListener('click', () => {
+                const command = button.dataset.command;
+                if (command === 'insertImage') {
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.accept = 'image/*';
+                    fileInput.onchange = () => {
+                        const file = fileInput.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.alt = 'Görsel';
+                                editor.appendChild(img);
+                                saveDraft();
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    };
+                    fileInput.click();
+                } else {
+                    document.execCommand(command, false, null);
+                    saveDraft();
+                }
+                editor.focus();
+            });
+        });
+
+        // Klavye Kısayolları
+        editor.addEventListener('keydown', (e) => {
+            if (e.ctrlKey) {
+                if (e.key === 'b') {
+                    e.preventDefault();
+                    document.execCommand('bold', false, null);
+                } else if (e.key === 'i') {
+                    e.preventDefault();
+                    document.execCommand('italic', false, null);
+                }
+            }
+            saveDraft();
+        });
+
+        // Otomatik Kaydetme
+        function startAutoSave() {
+            draftInterval = setInterval(saveDraft, 10000);
+        }
+
+        function saveDraft() {
+            const draft = {
+                id: editingPostId,
+                title: document.getElementById('post-title').value,
+                category: document.getElementById('post-category').value,
+                content: editor.innerHTML,
+                tags: document.getElementById('post-tags').value,
+                image: imagePreview.src && !imagePreview.classList.contains('hidden') ? imagePreview.src : '',
+                music: document.getElementById('post-music').value
+            };
+            localStorage.setItem('draft', JSON.stringify(draft));
+            showToast('Taslak kaydedildi', 'info');
+        }
+
+        saveDraftBtn.addEventListener('click', saveDraft);
+
+        function loadDraft() {
+            const draft = JSON.parse(localStorage.getItem('draft'));
+            if (draft && !editingPostId) {
+                document.getElementById('post-title').value = draft.title || '';
+                document.getElementById('post-category').value = draft.category || categories[0].name;
+                editor.innerHTML = draft.content || '';
+                document.getElementById('post-tags').value = draft.tags || '';
+                document.getElementById('post-music').value = draft.music || '';
+                if (draft.image) {
+                    imagePreview.src = draft.image;
+                    imagePreview.classList.remove('hidden');
+                }
+                updateWordCount();
+            }
+        }
+
+        // Yazı Önizleme
+        document.querySelector('.preview-btn').addEventListener('click', () => {
+            const title = document.getElementById('post-title').value;
+            const content = editor.innerHTML;
+            const category = document.getElementById('post-category').value;
+            const tags = tagInput.value.split(',').map(tag => tag.trim()).filter(tag => tag);
+            const music = musicInput.value.split(',').map(url => url.trim()).filter(url => url);
+            const previewContainer = document.getElementById('preview-container');
+            const formattedDate = new Date().toLocaleDateString('tr-TR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            const readingTime = calculateReadingTime(content);
+
+            previewContainer.innerHTML = `
+                <h3>${title || 'Başlık'}</h3>
+                <div class="post-meta">
+                    <span>${formattedDate}</span>
+                    <span>${category.charAt(0).toUpperCase() + category.slice(1)}</span>
+                    <span>${readingTime} dk okuma</span>
+                </div>
+                <div class="card-tags">${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+                <div class="post-content">${content || 'İçerik'}</div>
+                ${music.length ? `
+                    <div class="music-section">
+                        <h3>Müzik Önerileri</h3>
+                        ${music.map(url => `
+                            <div class="music-player">
+                                ${url.includes('spotify') ? `<iframe src="${url}" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"></iframe>` : 
+                                  `<iframe src="${url.replace('watch?v=', 'embed/')}" height="80" frameborder="0" allow="autoplay; encrypted-media"></iframe>`}
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+            `;
+            previewContainer.classList.remove('hidden');
+        });
+
+        // Etiket Önerileri
+        function updateTagSuggestions() {
+            const input = tagInput.value.toLowerCase();
+            tagSuggestions.innerHTML = '';
+            if (input) {
+                const suggestions = allTags.filter(tag => tag.toLowerCase().includes(input) && !tagInput.value.split(',').map(t => t.trim()).includes(tag));
+                const content = editor.innerHTML.replace(/<[^>]*>/g, '').toLowerCase();
+                const contentSuggestions = content.split(/\s+/).filter(word => word.length > 3 && !allTags.includes(word) && word.includes(input)).slice(0, 3);
+                const allSuggestions = [...new Set([...suggestions, ...contentSuggestions])];
+                if (allSuggestions.length) {
+                    tagSuggestions.classList.remove('hidden');
+                    allSuggestions.forEach(tag => {
+                        const div = document.createElement('div');
+                        div.classList.add('tag-suggestion');
+                        div.textContent = tag;
+                        div.addEventListener('click', () => {
+                            const currentTags = tagInput.value.split(',').map(t => t.trim()).filter(t => t);
+                            currentTags.push(tag);
+                            tagInput.value = currentTags.join(', ');
+                            tagSuggestions.classList.add('hidden');
+                            tagInput.focus();
+                        });
+                        tagSuggestions.appendChild(div);
+                    });
+                } else {
+                    tagSuggestions.classList.add('hidden');
+                }
+            } else {
+                tagSuggestions.classList.add('hidden');
+            }
+        }
+
+        tagInput.addEventListener('input', updateTagSuggestions);
+        tagInput.addEventListener('blur', () => setTimeout(() => tagSuggestions.classList.add('hidden'), 200));
+
+        // Okuma Süresi Hesaplama
+        function calculateReadingTime(content) {
+            const words = content.replace(/<[^>]*>/g, '').split(/\s+/).filter(word => word.length > 0).length;
+            return Math.ceil(words / 200);
+        }
+
+        // Kategorileri Güncelle
+        function updateCategories() {
+            navMenu.innerHTML = `
+                <li><a href="#" class="nav-link active" data-category="all">Tümü</a></li>
+                ${categories.map(cat => `<li><a href="#" class="nav-link" data-category="${cat.name}">${cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}</a></li>`).join('')}
+                <li><a href="#" class="nav-link" data-section="favorites">Favoriler</a></li>
+                <li><a href="#" class="nav-link" data-section="archive">Arşiv</a></li>
+            `;
+
+            categoryTags.innerHTML = `<div class="tag active" data-category="all">Tümü</div>`;
+            categories.forEach(cat => {
+                categoryTags.innerHTML += `<div class="tag" data-category="${cat.name}">${cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}</div>`;
+            });
+
+            const categorySelect = document.getElementById('post-category');
+            categorySelect.innerHTML = categories.map(cat => `<option value="${cat.name}">${cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}</option>`).join('');
+
+            let css = `
+                :root {
+                    ${categories.map(cat => `--${cat.name}-color: ${cat.color};`).join('')}
+                }
+                [data-theme="dark"] {
+                    ${categories.map(cat => `--${cat.name}-color: ${cat.darkColor};`).join('')}
+                }
+                ${categories.map(cat => `.${cat.name} { background-color: var(--${cat.name}-color); }`).join('')}
+            `;
+            const styleSheet = document.createElement('style');
+            styleSheet.innerText = css;
+            document.head.appendChild(styleSheet);
+
+            document.querySelectorAll('[data-category]').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    activeCategory = element.dataset.category;
+                    currentPage = 1;
+                    document.querySelectorAll('.tag[data-category], .nav-link').forEach(el => el.classList.remove('active'));
+                    element.classList.add('active');
+                    document.querySelector(`.nav-link[data-category="${activeCategory}"]`)?.classList.add('active');
+                    showSection('blog');
+                    applyFilters();
+                });
+            });
+
+            document.querySelectorAll('[data-section]').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showSection(element.dataset.section);
+                });
+            });
+        }
+
+        // Etiketleri Görüntüle
+        function renderTags() {
+            allTags = [...new Set(blogPosts.flatMap(post => post.tags))];
+            tagCloud.innerHTML = '';
+            allTags.forEach(tag => {
+                const tagElement = document.createElement('div');
+                tagElement.classList.add('tag');
+                tagElement.textContent = tag;
+                tagElement.dataset.tag = tag;
+                if (activeTags.includes(tag)) tagElement.classList.add('active');
+                tagCloud.appendChild(tagElement);
+            });
+
+            tagCloud.querySelectorAll('.tag').forEach(tag => {
+                tag.addEventListener('click', () => {
+                    const tagName = tag.dataset.tag;
+                    if (activeTags.includes(tagName)) {
+                        activeTags = activeTags.filter(t => t !== tagName);
+                        tag.classList.remove('active');
+                    } else {
+                        activeTags.push(tagName);
+                        tag.classList.add('active');
+                    }
+                    currentPage = 1;
+                    applyFilters();
+                });
+            });
+        }
+
+        // Yazıları Görüntüle
+        function renderPosts(posts, container = blogContainer) {
+            container.innerHTML = '';
+            if (!posts || posts.length === 0) {
+                container.innerHTML = '<p>Henüz yazı bulunmamaktadır.</p>';
+                pagination.classList.add('hidden');
+                return;
+            }
+
+            const start = (currentPage - 1) * postsPerPage;
+            const end = start + postsPerPage;
+            const paginatedPosts = posts.slice(start, end);
+
+            paginatedPosts.forEach(post => {
+                const postElement = document.createElement('article');
+                postElement.classList.add('blog-card');
+                postElement.dataset.category = post.category;
+                postElement.dataset.tags = post.tags.join(',');
+                postElement.dataset.id = post.id;
+
+                const formattedDate = new Date(post.date).toLocaleDateString('tr-TR', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                const readingTime = calculateReadingTime(post.content);
+                const isFavorite = favorites.includes(post.id);
+
+                const imageHtml = post.image
+                    ? `<div class="card-img" style="background-image: url('${post.image}')"></div>`
+                    : `<div class="card-img ${post.category}"><i class="fas ${categories.find(cat => cat.name === post.category)?.icon || 'fa-file-alt'}"></i></div>`;
+
+                postElement.innerHTML = `
+                    ${imageHtml}
+                    <div class="card-views"><i class="fas fa-eye"></i> ${post.views || 0}</div>
+                    <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${post.id}" aria-label="Favorilere Ekle"><i class="fas fa-heart"></i></button>
+                    <div class="card-content">
+                        <h3>${post.title}</h3>
+                        <div class="date">${formattedDate}</div>
+                        <div class="reading-time">${readingTime} dk okuma</div>
+                        <div class="excerpt">${post.excerpt}</div>
+                        <div class="card-tags">
+                            ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(postElement);
+            });
+
+            container.querySelectorAll('.card-content, .card-img').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    const postId = parseInt(element.closest('.blog-card').dataset.id);
+                    showPostDetail(postId);
+                });
+            });
+
+            container.querySelectorAll('.favorite-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.dataset.id);
+                    toggleFavorite(id, btn);
+                });
+            });
+
+            renderPagination(posts.length, container);
+        }
+
+        // Favorilere Ekle/Çıkar
+        function toggleFavorite(id, btn) {
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(fav => fav !== id);
+                btn.classList.remove('active');
+                showToast('Favorilerden kaldırıldı', 'info');
+            } else {
+                favorites.push(id);
+                btn.classList.add('active');
+                showToast('Favorilere eklendi', 'success');
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateStats();
+            if (favoritesSection.classList.contains('hidden')) return;
+            renderPosts(blogPosts.filter(post => favorites.includes(post.id)), document.getElementById('favorites-container'));
+        }
+
+        // Sayfalama
+        function renderPagination(totalPosts, container = blogContainer) {
+            pagination.innerHTML = '';
+            const totalPages = Math.ceil(totalPosts / postsPerPage);
+            if (totalPages <= 1) {
+                pagination.classList.add('hidden');
+                return;
+            }
+
+            const prevButton = document.createElement('button');
+            prevButton.textContent = 'Önceki';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    applyFilters();
+                }
+            });
+            pagination.appendChild(prevButton);
+
+            const pageInfo = document.createElement('span');
+            pageInfo.textContent = `${currentPage} / ${totalPages}`;
+            pagination.appendChild(pageInfo);
+
+            const nextButton = document.createElement('button');
+            nextButton.textContent = 'Sonraki';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    applyFilters();
+                }
+            });
+            pagination.appendChild(nextButton);
+
+            pagination.classList.toggle('hidden', container !== blogContainer);
+        }
+
+        // Yazı Detayını Göster
+        function showPostDetail(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            const formattedDate = new Date(post.date).toLocaleDateString('tr-TR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            const readingTime = calculateReadingTime(post.content);
+            const isFavorite = favorites.includes(post.id);
+
+            document.getElementById('detail-title').textContent = post.title;
+            document.getElementById('detail-title').dataset.id = post.id;
+            document.getElementById('detail-date').textContent = formattedDate;
+            document.getElementById('detail-category').textContent = post.category.charAt(0).toUpperCase() + post.category.slice(1);
+            document.getElementById('detail-reading-time').textContent = `${readingTime} dk okuma`;
+            document.getElementById('detail-content').innerHTML = post.content;
+            document.getElementById('detail-tags').innerHTML = post.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            document.getElementById('detail-favorite').classList.toggle('active', isFavorite);
+            document.getElementById('detail-favorite').dataset.id = post.id;
+            detailViews.textContent = post.views || 0;
+
+            const musicSection = document.getElementById('detail-music');
+            if (post.music && post.music.length) {
+                musicSection.innerHTML = `
+                    <h3>Müzik Önerileri</h3>
+                    ${post.music.map(url => `
+                        <div class="music-player">
+                            ${url.includes('spotify') ? `<iframe src="${url}" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"></iframe>` : 
+                              `<iframe src="${url.replace('watch?v=', 'embed/')}" height="80" frameborder="0" allow="autoplay; encrypted-media"></iframe>`}
+                        </div>
+                    `).join('')}
+                `;
+                musicSection.classList.remove('hidden');
+            } else {
+                musicSection.classList.add('hidden');
+            }
+
+            postDetail.classList.remove('hidden');
+            blogSection.classList.add('hidden');
+            blogContainer.classList.add('hidden');
+            adminSection.classList.add('hidden');
+            loginSection.classList.add('hidden');
+            favoritesSection.classList.add('hidden');
+            archiveSection.classList.add('hidden');
+            
+            updateShareButtons();
+            loadComments(postId);
+            loadRelatedPosts(post);
+            incrementViewCount(postId);
+            updateStats();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Bölüm Göster
+        function showSection(section) {
+            postDetail.classList.add('hidden');
+            blogSection.classList.add('hidden');
+            blogContainer.classList.add('hidden');
+            favoritesSection.classList.add('hidden');
+            archiveSection.classList.add('hidden');
+            adminSection.classList.add('hidden');
+            loginSection.classList.add('hidden');
+
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            if (section === 'blog') {
+                blogSection.classList.remove('hidden');
+                blogContainer.classList.remove('hidden');
+                document.querySelector(`.nav-link[data-category="${activeCategory}"]`)?.classList.add('active');
+                applyFilters();
+            } else if (section === 'favorites') {
+                favoritesSection.classList.remove('hidden');
+                document.querySelector('.nav-link[data-section="favorites"]').classList.add('active');
+                renderPosts(blogPosts.filter(post => favorites.includes(post.id)), document.getElementById('favorites-container'));
+            } else if (section === 'archive') {
+                archiveSection.classList.remove('hidden');
+                document.querySelector('.nav-link[data-section="archive"]').classList.add('active');
+                renderArchive();
+            }
+        }
+
+        // Arşivi Görüntüle
+        function renderArchive() {
+            const archiveList = document.getElementById('archive-list');
+            archiveList.innerHTML = '';
+            const postsByYearMonth = {};
+
+            // Tarih filtrelerini uygula
+            let filteredPosts = blogPosts;
+            const year = yearFilter.value;
+            const month = monthFilter.value;
+            
+            if (year !== 'all') {
+                filteredPosts = filteredPosts.filter(post => new Date(post.date).getFullYear() === parseInt(year));
+            }
+            
+            if (month !== 'all') {
+                filteredPosts = filteredPosts.filter(post => new Date(post.date).getMonth() === parseInt(month));
+            }
+
+            filteredPosts.forEach(post => {
+                const date = new Date(post.date);
+                const yearMonth = `${date.getFullYear()} ${date.toLocaleString('tr-TR', { month: 'long' })}`;
+                if (!postsByYearMonth[yearMonth]) {
+                    postsByYearMonth[yearMonth] = [];
+                }
+                postsByYearMonth[yearMonth].push(post);
+            });
+
+            if (Object.keys(postsByYearMonth).length === 0) {
+                archiveList.innerHTML = '<p>Bu filtrelerle eşleşen yazı bulunamadı.</p>';
+                return;
+            }
+
+            Object.keys(postsByYearMonth).sort().reverse().forEach(yearMonth => {
+                const ul = document.createElement('ul');
+                ul.classList.add('archive-list');
+                ul.innerHTML = `<h3>${yearMonth} (${postsByYearMonth[yearMonth].length} yazı)</h3>`;
+                postsByYearMonth[yearMonth].forEach(post => {
+                    ul.innerHTML += `<li><a href="#" data-id="${post.id}">${post.title}</a></li>`;
+                });
+                archiveList.appendChild(ul);
+            });
+
+            archiveList.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPostDetail(parseInt(link.dataset.id));
+                });
+            });
+        }
+
+        // Geri Düğmesi
+        document.getElementById('back-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection('blog');
+        });
+
+        // Favoriler Düğmesi
+        favoritesToggle.addEventListener('click', () => showSection('favorites'));
+
+        // Detay Favori Düğmesi
+        document.getElementById('detail-favorite').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = parseInt(e.target.closest('button').dataset.id);
+            toggleFavorite(id, e.target.closest('button'));
+        });
+
+        // Filtreler
+        searchInput.addEventListener('input', () => {
+            currentPage = 1;
+            applyFilters();
+        });
+
+        heroSearch.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                searchInput.value = heroSearch.value;
+                currentPage = 1;
+                applyFilters();
+                window.scrollTo({ top: blogSection.offsetTop - 100, behavior: 'smooth' });
+            }
+        });
+
+        function applyFilters() {
+            const searchText = searchInput.value.toLowerCase();
+            const fromDate = dateFrom.value ? new Date(dateFrom.value) : null;
+            const toDate = dateTo.value ? new Date(dateTo.value) : null;
+            const sortValue = sortBy.value;
+            
+            let filteredPosts = blogPosts.filter(post => {
+                if (activeCategory !== 'all' && post.category !== activeCategory) return false;
+                if (activeTags.length && !activeTags.some(tag => post.tags.includes(tag))) return false;
+                
+                // Tarih filtreleme
+                const postDate = new Date(post.date);
+                if (fromDate && postDate < fromDate) return false;
+                if (toDate && postDate > toDate) return false;
+                
+                // Metin arama
+                if (searchText) {
+                    const contentText = post.content.replace(/<[^>]*>/g, '').toLowerCase();
+                    return (
+                        post.title.toLowerCase().includes(searchText) ||
+                        post.excerpt.toLowerCase().includes(searchText) ||
+                        contentText.includes(searchText) ||
+                        post.tags.some(tag => tag.toLowerCase().includes(searchText))
+                    );
+                }
+                return true;
+            });
+
+            // Sıralama
+            switch(sortValue) {
+                case 'newest':
+                    filteredPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+                case 'oldest':
+                    filteredPosts.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    break;
+                case 'most-viewed':
+                    filteredPosts.sort((a, b) => (b.views || 0) - (a.views || 0));
+                    break;
+                case 'most-read':
+                    filteredPosts.sort((a, b) => {
+                        const aWords = a.content.replace(/<[^>]*>/g, '').split(/\s+/).length;
+                        const bWords = b.content.replace(/<[^>]*>/g, '').split(/\s+/).length;
+                        return bWords - aWords;
+                    });
+                    break;
+            }
+
+            renderPosts(filteredPosts);
+        }
+
+        // Müzik URL'lerini Doğrula
+        function validateMusicUrls(urls) {
+            return urls.filter(url => {
+                const isValid = url.includes('spotify.com') || url.includes('youtube.com') || url.includes('youtu.be');
+                if (!isValid) {
+                    console.warn(`Geçersiz müzik URL'si: ${url}`);
+                }
+                return isValid;
+            });
+        }
+
+        // Admin Form Gönderimi
+        adminForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('post-title').value;
+            const category = document.getElementById('post-category').value;
+            const content = editor.innerHTML;
+            const tags = tagInput.value.split(',').map(tag => tag.trim()).filter(tag => tag);
+            const music = validateMusicUrls(musicInput.value.split(',').map(url => url.trim()).filter(url => url));
+            const date = new Date().toISOString().split('T')[0];
+            const excerpt = content.replace(/<[^>]*>/g, '').substring(0, 100) + '...';
+
+            let imageUrl = '';
+            if (imageInput.files[0]) {
+                imageUrl = await new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(imageInput.files[0]);
+                });
+            } else if (imagePreview.src && !imagePreview.classList.contains('hidden')) {
+                imageUrl = imagePreview.src;
+            }
+
+            const post = {
+                id: editingPostId || Math.max(...blogPosts.map(post => post.id), 0) + 1,
+                title,
+                content,
+                excerpt,
+                category,
+                tags,
+                date,
+                image: imageUrl,
+                music,
+                views: 0,
+                readTime: calculateReadingTime(content)
+            };
+
+            if (editingPostId) {
+                const index = blogPosts.findIndex(p => p.id === editingPostId);
+                blogPosts[index] = post;
+                showToast('Yazı güncellendi!', 'success');
+            } else {
+                blogPosts.unshift(post);
+                showToast('Yazı eklendi!', 'success');
+            }
+
+            tags.forEach(tag => {
+                if (!allTags.includes(tag)) allTags.push(tag);
+            });
+
+            localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+            localStorage.removeItem('draft');
+            renderTags();
+            resetPostForm();
+            applyFilters();
+            showSection('blog');
+            isAdmin = false;
+            adminToggle.innerHTML = '<i class="fas fa-lock"></i>';
+            clearInterval(draftInterval);
+            
+            // Abonelere e-posta gönder (simülasyon)
+            if (subscribers.length > 0) {
+                showToast(`${subscribers.length} aboneye yeni yazı bildirimi gönderildi`, 'info');
+            }
+        });
+
+        // Yazıyı Klonla
+        clonePostBtn.addEventListener('click', () => {
+            const title = document.getElementById('post-title').value;
+            if (title) {
+                editingPostId = null;
+                document.getElementById('post-id').value = '';
+                submitPostBtn.textContent = 'Yayınla';
+                clonePostBtn.classList.add('hidden');
+                document.getElementById('post-title').value = `Kopya: ${title}`;
+                saveDraft();
+                showToast('Yazı klonlandı. Başlık güncellendi.', 'info');
+            }
+        });
+
+        // Yazı Formunu Sıfırla
+        function resetPostForm() {
+            editingPostId = null;
+            document.getElementById('post-id').value = '';
+            adminForm.reset();
+            editor.innerHTML = '';
+            imagePreview.classList.add('hidden');
+            musicInput.value = '';
+            submitPostBtn.textContent = 'Yayınla';
+            clonePostBtn.classList.add('hidden');
+            document.getElementById('preview-container').classList.add('hidden');
+            updateWordCount();
+            loadDraft();
+        }
+
+        // Yönetim için Yazı Listesini Görüntüle
+        function renderPostList() {
+            const postList = document.getElementById('post-list');
+            postList.innerHTML = '';
+            
+            let filteredPosts = blogPosts;
+            const searchText = manageSearch.value.toLowerCase();
+            
+            if (searchText) {
+                filteredPosts = filteredPosts.filter(post => 
+                    post.title.toLowerCase().includes(searchText) ||
+                    post.excerpt.toLowerCase().includes(searchText) ||
+                    post.tags.some(tag => tag.toLowerCase().includes(searchText))
+                );
+            }
+            
+            if (filteredPosts.length === 0) {
+                postList.innerHTML = '<p>Hiç yazı bulunamadı.</p>';
+                return;
+            }
+
+            filteredPosts.forEach(post => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <a href="#" data-id="${post.id}">${post.title}</a>
+                    <span class="post-views"><i class="fas fa-eye"></i> ${post.views || 0}</span>
+                    <button class="btn btn-primary" data-id="${post.id}" data-action="edit">Düzenle</button>
+                    <button class="btn btn-danger" data-id="${post.id}" data-action="delete">Sil</button>
+                `;
+                postList.appendChild(li);
+            });
+
+            postList.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPostDetail(parseInt(link.dataset.id));
+                });
+            });
+
+            postList.querySelectorAll('[data-action="edit"]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.dataset.id);
+                    editPost(id);
+                });
+            });
+
+            postList.querySelectorAll('[data-action="delete"]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.dataset.id);
+                    if (confirm('Bu yazıyı silmek istediğinizden emin misiniz?')) {
+                        blogPosts = blogPosts.filter(post => post.id !== id);
+                        favorites = favorites.filter(fav => fav !== id);
+                        localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+                        localStorage.setItem('favorites', JSON.stringify(favorites));
+                        renderPostList();
+                        renderTags();
+                        applyFilters();
+                        showToast('Yazı silindi', 'success');
+                    }
+                });
+            });
+        }
+
+        manageSearch.addEventListener('input', renderPostList);
+
+        // Yazıyı Düzenle
+        function editPost(id) {
+            const post = blogPosts.find(p => p.id === id);
+            if (!post) return;
+
+            editingPostId = id;
+            document.getElementById('post-id').value = id;
+            document.getElementById('post-title').value = post.title;
+            document.getElementById('post-category').value = post.category;
+            editor.innerHTML = post.content;
+            document.getElementById('post-tags').value = post.tags.join(', ');
+            document.getElementById('post-music').value = post.music.join(', ');
+            if (post.image) {
+                imagePreview.src = post.image;
+                imagePreview.classList.remove('hidden');
+            } else {
+                imagePreview.classList.add('hidden');
+            }
+            submitPostBtn.textContent = 'Güncelle';
+            clonePostBtn.classList.remove('hidden');
+            switchTab('post');
+            saveDraft();
+            updateWordCount();
+            showToast('Yazı düzenleme modunda', 'info');
+        }
+
+        // Kategori Form Gönderimi
+        document.getElementById('category-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('category-name').value.toLowerCase();
+            const color = document.getElementById('category-color').value;
+            const icon = document.getElementById('category-icon').value;
+            const darkColor = lightenColor(color, 20);
+
+            if (categories.some(cat => cat.name === name)) {
+                showToast('Bu kategori zaten mevcut!', 'error');
+                return;
+            }
+
+            categories.push({ name, color, darkColor, icon });
+            localStorage.setItem('categories', JSON.stringify(categories));
+            updateCategories();
+            document.getElementById('category-form').reset();
+            showToast('Kategori eklendi!', 'success');
+            switchTab('post');
+        });
+
+        // Rengi Açıklaştır
+        function lightenColor(hex, percent) {
+            let r = parseInt(hex.slice(1, 3), 16);
+            let g = parseInt(hex.slice(3, 5), 16);
+            let b = parseInt(hex.slice(5, 7), 16);
+            r = Math.min(255, Math.round(r + (255 - r) * (percent / 100)));
+            g = Math.min(255, Math.round(g + (255 - g) * (percent / 100)));
+            b = Math.min(255, Math.round(b + (255 - b) * (percent / 100)));
+            return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+        }
+
+        // Admin İstatistiklerini Güncelle
+        function updateAdminStats() {
+            statPosts.textContent = blogPosts.length;
+            
+            const totalViews = blogPosts.reduce((sum, post) => sum + (post.views || 0), 0);
+            statViews.textContent = totalViews;
+            
+            const avgWords = blogPosts.length > 0 ? 
+                Math.round(blogPosts.reduce((sum, post) => {
+                    const text = post.content.replace(/<[^>]*>/g, '');
+                    return sum + text.split(/\s+/).length;
+                }, 0) / blogPosts.length) : 0;
+            statWords.textContent = avgWords;
+            
+            statCategories.textContent = categories.length;
+            
+            // Kategori dağılımı grafiği (basit versiyon)
+            const categoryChart = document.getElementById('category-chart');
+            categoryChart.innerHTML = '';
+            
+            const categoryCounts = {};
+            categories.forEach(cat => {
+                categoryCounts[cat.name] = blogPosts.filter(post => post.category === cat.name).length;
+            });
+            
+            Object.entries(categoryCounts).forEach(([name, count]) => {
+                const bar = document.createElement('div');
+                bar.style.display = 'flex';
+                bar.style.alignItems = 'center';
+                bar.style.marginBottom = '0.5rem';
+                
+                const label = document.createElement('div');
+                label.textContent = name;
+                label.style.width = '100px';
+                label.style.marginRight = '1rem';
+                
+                const barContainer = document.createElement('div');
+                barContainer.style.flexGrow = '1';
+                barContainer.style.height = '20px';
+                barContainer.style.backgroundColor = '#eee';
+                barContainer.style.borderRadius = '4px';
+                barContainer.style.overflow = 'hidden';
+                
+                const barFill = document.createElement('div');
+                barFill.style.height = '100%';
+                barFill.style.width = `${(count / blogPosts.length) * 100}%`;
+                barFill.style.backgroundColor = categories.find(c => c.name === name)?.color || '#007bff';
+                
+                const countLabel = document.createElement('div');
+                countLabel.textContent = count;
+                countLabel.style.width = '30px';
+                countLabel.style.textAlign = 'right';
+                countLabel.style.marginLeft = '1rem';
+                
+                barContainer.appendChild(barFill);
+                bar.appendChild(label);
+                bar.appendChild(barContainer);
+                bar.appendChild(countLabel);
+                categoryChart.appendChild(bar);
+            });
+        }
+
+        // Başlatma
+        function init() {
+            updateCategories();
+            renderTags();
+            applyFilters();
+            loadDraft();
+            updateStats();
+            setupDateFilters();
+            updateWordCount();
+            
+            // İlk açılışta istatistikleri göster
+            showToast(`Hoş geldiniz! Sitede ${blogPosts.length} yazı ve ${allTags.length} etiket bulunuyor.`, 'info');
+        }
+
+        init();
+    </script>
+</body>
+</html>
